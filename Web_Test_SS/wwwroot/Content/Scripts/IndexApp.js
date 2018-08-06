@@ -1,28 +1,29 @@
 ﻿var app = angular.module('WatchesApp', []);
 
-app.controller("SubscribeCtrl", function ($scope) {
-    $scope.subscribe = function (email, ) {
+app.controller("SubscribeCtrl", function ($scope, $http) {
+    $scope.subscribe = function (email) {
 
-        alert("Email is " + email);
-        //Написати добавлення емейлу в базу
+        alert("Email is " + $scope.email);
+        $http.post("/api/subscribe/" + $scope.email);
+       // $http.post('/api/subscribe', { params: { email: $scope.email } });
     };
 });
 
 app.controller("BodyCtrl", function ($scope, $http) {
     $scope.search = "";
+    $scope.order = "";
 
-    $scope.Watches = []; /*{ image: "../Content/WatchesImage/HamiltonH76512733.jpg", name: "Hamilton H76512733", price: 16900, text: "Виробник: Швейцарія / механізм: кварцовий / стікло: сапфіровое / тип індикації: стрілковий / корпус: сталь / водонепроникність: 100 м / ремінь: шкіряний / тип: чоловічі" },
-        { image: "../Content/WatchesImage/HamiltonH82305931.jpg", name: "Hamilton H82305931", price: 21850, text: "Виробник: Швейцария / механізм: механічний з автоподзаводом / стікло: сапфіровое / тип індикацхї: стрілковий / корпус: сталь / водонепроникність: 100 м / ремінь: тканинний / тип: чоловічі" },
-        { image: "../Content/WatchesImage/Atlantic50744.41.21.jpg", name: "Atlantic 50744.41.21", price: 15370, text: "Виробник: Швейцарія / тип: чоловічі / механізм: механічний с автоподзаводом / стікло: сапфіровое / тип індикацхї: стрілковий / корпус: сталь / водонепроникність: 50 м / ремінь: шкіряний"}];*/
+    $scope.Watches = [];
 
     function fulfilled(response) {
+        console.log(response);
         $scope.Watches = response.data;
-    }
+    };
 
     function rejected(error) {
         console.log("Error");
         console.log(error);
-    }
+    };
 
     var promice = $http.get("/api/watch");
     promice.then(fulfilled, rejected);
@@ -32,6 +33,41 @@ app.controller("BodyCtrl", function ($scope, $http) {
             return true;
         }
         else return false;
+    };
+
+    function AscOrder(a, b) {
+        if (a.price > b.price) return 1;
+        if (a.price < b.price) return -1;
+    }
+
+    function DescOrder(a, b) {
+        if (a.price > b.price) return -1;
+        if (a.price < b.price) return 1;
+    }
+
+    function ABCOrder(a, b) {
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
+    }
+
+    function ASB_DescOrder(a, b) {
+        if (a.name > b.name) return -1;
+        if (a.name < b.name) return 1;
+    }
+
+    $scope.Order = function (order) {
+        if (order === "asc") {
+            $scope.Watches.sort(AscOrder);
+        }
+        if (order === "desc") {
+            $scope.Watches.sort(DescOrder);
+        }
+        if (order === "ABC") {
+            $scope.Watches.sort(ABCOrder);
+        }
+        if (order === "descABC") {
+            $scope.Watches.sort(ASB_DescOrder);
+        }
     };
 
     $scope.openModal = function (watch) {

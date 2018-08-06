@@ -10,15 +10,15 @@ namespace Web_Test_SS.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class WatchController : Controller
+    public class SubscribeController : Controller
     {
-        // GET api/watch
-        [HttpGet]
-        public IEnumerable<Watch> Get()
+        // Post api/subscribe
+        [HttpPost("{email}")]
+        public void Post(string email)
         {
-            Watches watches = new Watches(new WatchDataContex());
+            SubscribeUsers subUsers = new SubscribeUsers(new SubscribeDataContex());
 
-            return watches.GetWatches();
+            subUsers.AddSubscribeUser(new SubscribeUser(email));
         }
     }
 }

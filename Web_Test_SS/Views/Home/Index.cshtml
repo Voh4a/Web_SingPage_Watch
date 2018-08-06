@@ -70,9 +70,10 @@
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="ShowDropdown()">Group by</button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" ng-click="Order('asc')">Price</a>
+                    <a class="dropdown-item" ng-click="Order('desc')">Reverse price</a>
+                    <a class="dropdown-item" ng-click="Order('ABC')">ABC</a>
+                    <a class="dropdown-item" ng-click="Order('descABC')">Reverse ABC</a>
                 </div>
             </div>
         </div>
@@ -82,7 +83,6 @@
                 <img class="card-img-top" src="{{watch.image}}" alt="Watch image">
                 <div class="card-body">
                     <h5 class="card-title">{{watch.name}}</h5>
-                    <p class="card-text">{{watch.text}}</p>
                 </div>
                 <div class="card-footer">
                     <small class="text-info">Price: {{watch.price | currency : UAH}}</small>

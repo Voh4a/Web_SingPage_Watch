@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace Web_Test_SS.Model
 {
-    public class Watch
+    public class SubscribeUser
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string image { get; set; }
-        public string name { get; set; }
-        public string text { get; set; }
-        public int price { get; set; }
+        public string email { get; set; }
+
+        public SubscribeUser(string _email)
+        {
+            email = _email;
+        }
     }
 }

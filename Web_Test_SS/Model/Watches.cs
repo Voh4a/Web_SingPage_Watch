@@ -24,5 +24,10 @@ namespace Web_Test_SS.Model
             return contex.GetData(connection);
         }
 
+        public IEnumerable<Watch> GetSomeWatches(int skip, int limit)
+        {
+            return contex.GetSomeData(connection, skip, limit);
+        }
+
     }
 }

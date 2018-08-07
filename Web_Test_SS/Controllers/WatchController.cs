@@ -20,5 +20,15 @@ namespace Web_Test_SS.Controllers
 
             return watches.GetWatches();
         }
+
+        // GET api/watch
+        [HttpGet("{skip}/{limit}")]
+        public IEnumerable<Watch> GetSome(int skip, int limit)
+        {
+            Watches watches = new Watches(new WatchDataContex());
+
+            IEnumerable<Watch> test = watches.GetSomeWatches(skip, limit);
+            return test;
+        }
     }
 }

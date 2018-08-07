@@ -17,5 +17,7 @@ namespace Web_Test_SS.Model
         {
             email = _email;
         }
+         
+        public SubscribeUser() { }
     }
 }

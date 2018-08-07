@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Web_Test_SS.Controllers
     public class SubscribeController : Controller
     {
         // Post api/subscribe
-        [HttpPost("{email}")]
+        [HttpPost]
         public void Post(string email)
         {
             SubscribeUsers subUsers = new SubscribeUsers(new SubscribeDataContex());

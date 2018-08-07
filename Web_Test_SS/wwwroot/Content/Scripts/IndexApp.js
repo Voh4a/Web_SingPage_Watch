@@ -1,23 +1,33 @@
-﻿var app = angular.module('WatchesApp', []);
+﻿var app = angular.module('WatchesApp', ['infinite-scroll']);
 
 app.controller("SubscribeCtrl", function ($scope, $http) {
-    $scope.subscribe = function (email) {
+    $scope.subscribe = function () {
 
         alert("Email is " + $scope.email);
-        $http.post("/api/subscribe/" + $scope.email);
-       // $http.post('/api/subscribe', { params: { email: $scope.email } });
+        $http.post('/api/subscribe', {}, { params: { email: $scope.email } });
     };
 });
 
 app.controller("BodyCtrl", function ($scope, $http) {
     $scope.search = "";
     $scope.order = "";
+    $scope.loading = true;
+    $scope.IsEndData = false;
+    var limit = 6;
 
     $scope.Watches = [];
 
     function fulfilled(response) {
-        console.log(response);
-        $scope.Watches = response.data;
+        if (response.data.length !== 0) {
+            for (var i = 0; i < response.data.length; i++) {
+                $scope.Watches.push(response.data[i]);
+            }
+            $scope.loading = false;
+        }
+        else {
+            $scope.IsEndData = true;
+            $scope.loading = false;
+        }
     };
 
     function rejected(error) {
@@ -25,7 +35,7 @@ app.controller("BodyCtrl", function ($scope, $http) {
         console.log(error);
     };
 
-    var promice = $http.get("/api/watch");
+    var promice = $http.get("/api/watch/" + 0 + "/" + limit);
     promice.then(fulfilled, rejected);
 
     $scope.FilterbyName = function (item) {
@@ -38,22 +48,22 @@ app.controller("BodyCtrl", function ($scope, $http) {
     function AscOrder(a, b) {
         if (a.price > b.price) return 1;
         if (a.price < b.price) return -1;
-    }
+    };
 
     function DescOrder(a, b) {
         if (a.price > b.price) return -1;
         if (a.price < b.price) return 1;
-    }
+    };
 
     function ABCOrder(a, b) {
         if (a.name > b.name) return 1;
         if (a.name < b.name) return -1;
-    }
+    };
 
     function ASB_DescOrder(a, b) {
         if (a.name > b.name) return -1;
         if (a.name < b.name) return 1;
-    }
+    };
 
     $scope.Order = function (order) {
         if (order === "asc") {
@@ -74,4 +84,14 @@ app.controller("BodyCtrl", function ($scope, $http) {
         $('#exampleModalCenter').modal('show');
         $scope.watch = watch;
     };
+
+    $scope.LoadMore = function () {
+        if ($scope.IsEndData) {
+            return;
+        }
+        $scope.loading = true;
+        var promice = $http.get("/api/watch/" + $scope.Watches.length + "/" + limit);
+        promice.then(fulfilled, rejected);
+    };
+
 });

@@ -8,5 +8,6 @@ namespace Web_Test_SS.Model.Interface
     public interface IWatchContex
     {
         IEnumerable<Watch> GetData(ConnectionMongoDB connection);
+        IEnumerable<Watch> GetSomeData(ConnectionMongoDB connection, int start, int count);
     }
 }

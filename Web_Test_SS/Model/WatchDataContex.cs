@@ -20,5 +20,14 @@ namespace Web_Test_SS.Model
 
             return watches;
         }
+
+        public IEnumerable<Watch> GetSomeData(ConnectionMongoDB connection, int skip, int limit)
+        {
+            IMongoCollection<Watch> collection = connection.DB.GetCollection<Watch>(collectionName);
+            var filter = new BsonDocument();
+            var watches = collection.Find(filter).Skip(skip).Limit(limit).ToList();
+
+            return watches;
+        }
     }
 }

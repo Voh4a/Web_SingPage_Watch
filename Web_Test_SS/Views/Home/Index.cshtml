@@ -9,8 +9,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Watch</title>
-    <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.3.0/ng-infinite-scroll.min.js"></script>
     <script src="~/Content/Scripts/IndexApp.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="~/Content/Css/StyleIndex.css" rel="stylesheet" />
@@ -32,7 +32,7 @@
                 <div class="input-group mb-3 form_sub">
                     <input type="email" class="form-control bg-dark border border-dark text-white-50" placeholder="Enter your Email" ng-model="email" required />
                     <div class="input-group-append">
-                        <button class="btn btn-outline-dark" type="button" id="button-subscribe" ng-click="subscribe(email)" ng-disabled="SubEmail.$invalid"><span class="text-light">Send</span></button>
+                        <button class="btn btn-outline-dark" type="button" id="button-subscribe" ng-click="subscribe()" ng-disabled="SubEmail.$invalid"><span class="text-light">Send</span></button>
                     </div>
                 </div>
             </form>
@@ -60,6 +60,7 @@
                 </div>
             </div>
         </div>
+
         <div class="input-group mb-4 elem-in-body">
             <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary" type="button" id="button-find">&#128270;</button>
@@ -78,7 +79,7 @@
             </div>
         </div>
 
-        <div class="card-columns elem-in-body items container">
+        <div class="card-columns elem-in-body items container" infinite-scroll="LoadMore()" infinite-scroll-distance="0" infinite-scroll-disabled="loading">
             <div class="card" ng-repeat="watch in Watches | filter : FilterbyName" ng-click="openModal(watch)">
                 <img class="card-img-top" src="{{watch.image}}" alt="Watch image">
                 <div class="card-body">
@@ -88,6 +89,7 @@
                     <small class="text-info">Price: {{watch.price | currency : UAH}}</small>
                 </div>
             </div>
+            <div ng-show="loading">Loading data...</div>
         </div>
     </div>
 
